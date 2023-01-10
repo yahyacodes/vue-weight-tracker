@@ -1,6 +1,7 @@
 <script setup>
-import { ref, shallowRef, computed, watch, nextTick } from "vue";
-import Chart from "chart.js/auto";
+import { ref, shallowRef, computed, watch, nextTick } from 'vue';
+import Chart from 'chart.js/auto';
+
 const weights = ref([]);
 const weightChartEl = ref(null);
 const weightChart = shallowRef(null);
@@ -8,16 +9,19 @@ const weightInput = ref(0);
 const currentWeight = computed(() => {
   return weights.value.sort((a, b) => b.date - a.date)[0] || { weight: 0 };
 });
+
 const addWeight = () => {
   weights.value.push({
     weight: weightInput.value,
     date: new Date().getTime(),
   });
 };
+
 watch(
   weights,
   (newWeights) => {
     const ws = [...newWeights];
+
     if (weightChart.value) {
       weightChart.value.data.labels = ws
         .sort((a, b) => a.date - b.date)
@@ -30,21 +34,22 @@ watch(
       weightChart.value.update();
       return;
     }
+
     nextTick(() => {
-      weightChart.value = new Chart(weightChartEl.value.getContext("2d"), {
-        type: "line",
+      weightChart.value = new Chart(weightChartEl.value.getContext('2d'), {
+        type: 'line',
         data: {
           labels: ws
             .sort((a, b) => a.date - b.date)
             .map((weight) => new Date(weight.date).toLocaleDateString()),
           datasets: [
             {
-              label: "Weight",
+              label: 'Weight',
               data: ws
                 .sort((a, b) => a.date - b.date)
                 .map((weight) => weight.weight),
-              backgroundColor: "rgba(255, 105, 180, 0.2)",
-              borderColor: "rgba(255, 105, 180, 1)",
+              backgroundColor: 'rgba(255, 105, 180, 0.2)',
+              borderColor: 'rgba(255, 105, 180, 1)',
               borderWidth: 1,
               fill: true,
             },
@@ -79,7 +84,7 @@ watch(
       <h2>Last 7 days</h2>
 
       <div class="canvas-box">
-        <canvas ref="weightChaerEl"></canvas>
+        <canvas ref="weightChartEl"></canvas>
       </div>
 
       <div class="weight-history">
@@ -101,7 +106,7 @@ watch(
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "montserrat", sans-serif;
+  font-family: 'montserrat', sans-serif;
 }
 body {
   background-color: #eee;
@@ -158,7 +163,7 @@ form:hover {
   border-color: hotpink;
   border-width: 2px;
 }
-form input[type="number"] {
+form input[type='number'] {
   appearance: none;
   outline: none;
   border: none;
@@ -167,7 +172,7 @@ form input[type="number"] {
   padding: 1rem 1.5rem;
   font-size: 1.25rem;
 }
-form input[type="submit"] {
+form input[type='submit'] {
   appearance: none;
   outline: none;
   border: none;
@@ -180,7 +185,7 @@ form input[type="submit"] {
   transition: 200ms linear;
   border-left: 3px solid transparent;
 }
-form input[type="submit"]:hover {
+form input[type='submit']:hover {
   background-color: white;
   color: hotpink;
   border-left-color: hotpink;
